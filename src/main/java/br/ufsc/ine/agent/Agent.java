@@ -147,4 +147,47 @@ public class Agent {
 	public void setProfilingFile(String profilingFile) {
 		this.profilingFile = profilingFile;
 	}
+
+    public void initSenselessAgent(AgentWalker walker, CustomContext[] contexts){
+        this.customContexts = contexts;
+
+        List<LangContext> desires = getContext(walker, DESIRES);
+        List<LangContext> beliefs = getContext(walker, BELIEFS);
+
+        walker.getLangActuators().forEach(a ->{
+            try{
+                Class<?> clazz = Class.forName(a.getImplementation());
+                Constructor<?> ctor = clazz.getConstructor();
+                Actuator actuator = (Actuator) ctor.newInstance();
+                actuator.setName(a.getIdentifier());
+                actuators.add(actuator);
+            } catch (Exception e){
+                e.printStackTrace();
+                //TODO: implementar log
+            }
+        });
+
+        BeliefsContextService.getInstance().beliefs(beliefs);
+        DesiresContextService.getInstance().desires(desires);
+        PlansContextService.getInstance().plans(walker.getPlans());
+        PlansContextService.getInstance().plansClauses(walker.getPlansClauses());
+
+        if(this.customContexts != null)
+            for(CustomContext context: this.customContexts) {
+                BridgeRulesService.getInstance().addCustomContext(context);
+            }
+
+        BridgeRulesService.getInstance().rules(walker.getBridgeRules());
+
+        CommunicationContextService.getInstance().actuators(this.actuators);
+    }
+
+    public void addAndSubscribeSensor(Sensor sensor){
+        sensors.add(sensor);
+
+        sensor.getPublisher().subscribe(this::bdiAlgorithmCycle, Throwable::printStackTrace);
+
+        Thread sensorThread = new Thread(sensor);
+        sensorThread.start();
+    }
 }

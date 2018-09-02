@@ -1,11 +1,10 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>br.ufsc.ine</groupId>
 	<artifactId>agent-project</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>agent-project</name>
@@ -20,7 +19,7 @@
 		<dependency>
 			<groupId>org.antlr</groupId>
 			<artifactId>antlr4</artifactId>
-			<version>4.7</version>
+			<version>4.7.1</version>
 		</dependency>
 
 		<dependency>
@@ -85,11 +84,7 @@
 			<version>1.8.9</version>
 		</dependency>
 
-		<dependency>
-			<groupId>org.antlr</groupId>
-			<artifactId>antlr4-runtime-testsuite</artifactId>
-			<version>4.7</version>
-		</dependency>
+
 
 	</dependencies>
 
@@ -124,7 +119,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>br.ufsc.ine.agent.Agent</mainClass>
+							<mainClass>br.ufsc.ine.agent.Main</mainClass>
 						</manifest>
 					</archive>
 					<descriptorRefs>
@@ -132,30 +127,11 @@
 					</descriptorRefs>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>com.khubla.antlr</groupId>
-				<artifactId>antlr4test-maven-plugin</artifactId>
-				<configuration>
-					<verbose>true</verbose>
-					<showTree>true</showTree>
-					<entryPoint>agent</entryPoint>
-					<packageName>agent</packageName>
-					<grammarName>Agent</grammarName>
-					<testFileExtension>.txt</testFileExtension>
-					<exampleFiles>src/test/resources/examples</exampleFiles>
-				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<goal>test</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
+
 			<plugin>
 				<groupId>org.antlr</groupId>
 				<artifactId>antlr4-maven-plugin</artifactId>
-				<version>4.7</version>
+				<version>4.7.1</version>
 				<executions>
 					<execution>
 						<goals>
@@ -174,10 +150,10 @@
 				<artifactId>aspectj-maven-plugin</artifactId>
 				<version>1.7</version>
 				<configuration>
-					<showWeaveInfo />
+					<showWeaveInfo/>
 					<forceAjcCompile>true</forceAjcCompile>
 					<complianceLevel>1.8</complianceLevel>
-					<sources />
+					<sources/>
 					<source>1.8</source>
 					<target>1.8</target>
 					<showWeaveInfo>true</showWeaveInfo>
